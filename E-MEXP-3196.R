@@ -2,7 +2,7 @@ library(Biobase)
 library(Biobase)
 library(limma)
 rm(list=ls())
-setwd("D:\\project\\KBD\\data_raw\\E-MEXP-3196/")
+#########################################E-MEXP-3196##########################################
 # 1）读入 eSet 文件
 load("E-MEXP-3196.eSet.r")   # 路径按你自己的位置改
 # 2）看看加载了什么对象
@@ -84,14 +84,15 @@ status_Cy5 <- pheno$Characteristics.DiseaseState..Cy5
 
 outcome_Cy3 <- ifelse(status_Cy3 %in% c("normal", "Normal"), 0L, 1L)
 outcome_Cy5 <- ifelse(status_Cy5 %in% c("normal", "Normal"), 0L, 1L)
-Testing_class_3474 <- data.frame(
+Testing_class_3196 <- data.frame(
   sample  = c(sample_Cy3, sample_Cy5),
   outcome = c(outcome_Cy3, outcome_Cy5),
-  Cohort  = "E-MEXP-3474",
+  Cohort  = "E-MEXP-3196",
   stringsAsFactors = FALSE
 )
-rownames(Testing_class_3474) <- Testing_class_3474$sample
-table(Testing_class_3474$outcome)
+rownames(Testing_class_3196) <- Testing_class_3196$sample
+table(Testing_class_3196$outcome)
 
 save(expr_by_gene,Testing_class_3474,file="E-MEXP-3196_raw")
-
+######################################################################################
+################################
