@@ -10,13 +10,7 @@ This repository provides all scripts used in this study.
 4. WGCNA
 5. Machine learning model construction
 6. Model evaluation (AUC, CI, sensitivity, specificity)
-7. Decision curve analysis
-
-## Usage
-
-Run the full pipeline:
-
-Rscript run_analysis.R
+7. Decision curve analysis  
 
 ## Notes
 
