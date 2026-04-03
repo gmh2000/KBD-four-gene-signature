@@ -21,7 +21,6 @@ library(CIBERSORT)
 library(dplyr); library(matrixStats); library(WGCNA)
 library(ggplot2); library(pheatmap); library(edgeR)
 rm(list=ls())
-setwd("D:\\project/KBD\\data_raw\\GSE186593/")
 ############
 # lines <- readLines("GSE186593_series_matrix (1).txt/GSE186593_series_matrix (1).txt")
 # meta_lines <- grep("^!Sample_", lines, value = TRUE)
@@ -53,8 +52,6 @@ setwd("D:\\project/KBD\\data_raw\\GSE186593/")
 # sample_df <- as.data.frame(sample_info, stringsAsFactors = FALSE)
 # rownames(sample_df) <- sample_ids
 # write.csv(sample_df,"GSE77298_meta.csv",quote =FALSE)
-
-rm(list=ls())
 count=read.delim(file = "GSE186593_raw_counts_GRCh38.p13_NCBI.tsv/GSE186593_raw_counts_GRCh38.p13_NCBI.tsv",row.names = 1)
 anno=read.delim(file = "Human.GRCh38.p13.annot.tsv/Human.GRCh38.p13.annot.tsv",row.names = 1)
 meta=read.csv(file="GSE77298_meta.csv",row.names = 1)
@@ -102,9 +99,7 @@ dds <- DESeqDataSetFromMatrix(
 
 # 过滤低表达基因
 dds <- dds[rowSums(counts(dds)) > 15, ]
-
 library(sva)
-
 # vst 变换用于 SVA
 vsd <- vst(dds, blind=TRUE)
 vsd_mat <- assay(vsd)
@@ -122,17 +117,14 @@ dds_sv <- DESeqDataSetFromMatrix(
     paste("~ Sex +", paste(colnames(SV), collapse = " + "), "+ Group")
   )
 )
-
 dds_sv <- dds_sv[rowSums(counts(dds_sv)) > 15, ]
 dds_sv <- DESeq(dds_sv)
 res <- results(dds_sv, contrast = c("Group", "KBD", "Normal"))
 res <- res[order(res$padj), ]
 res <- na.omit(res)
 head(res)
-
 padj_cut <- 0.05
 lfc_cut  <- 1.5  # log2 fold change ≥ 1.5
-
 deg_all <- res %>%
   as.data.frame() %>%
   rownames_to_column("Gene") %>%
@@ -151,13 +143,9 @@ labels <- ifelse(rownames(res) %in% label_genes, rownames(res), NA)
 ## -------------------------
 ## 2. 发表级 EnhancedVolcano 参数
 ## -------------------------
-
-
 df <- as.data.frame(res)
-
 keyvals <- rep("grey80", nrow(df))
 names(keyvals) <- rep("NS", nrow(df))
-
 # 显著上调：padj<0.05 且 log2FC >= 1
 idx_up <- df$padj < padj_cut & df$log2FoldChange >=  lfc_cut
 keyvals[idx_up] <- "#D81B60"
@@ -239,12 +227,7 @@ EnhancedVolcano(
   gridlines.major  = FALSE,
   gridlines.minor  = FALSE
 )
-
 dev.off()
-
-
-
-
 library(pheatmap)
 vst_mat <- assay(vsd)
 top50 <- deg_all$Gene[1:50]
@@ -276,7 +259,5 @@ pheatmap(
   fontsize_row = 7
 )
 dev.off()
-
-
 save(dds,file="GSE186593_dds.RData")
 save.image(file="GSE186593_all.RData")
