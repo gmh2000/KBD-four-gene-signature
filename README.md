@@ -9,8 +9,6 @@ This repository provides all scripts used in this study.
 3. Differential expression analysis
 4. WGCNA
 5. Machine learning model construction
-6. Model evaluation (AUC, CI, sensitivity, specificity)
-7. Decision curve analysis  
 
 ## Notes
 
