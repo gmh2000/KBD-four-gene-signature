@@ -300,4 +300,18 @@ rownames(Testing_class_32127) <- Testing_class_32127$sample
 table(Testing_class_32127$outcome, useNA = "ifany")
 save(expr_gene,Testing_class_32127,file="GSE32127.RData")
 ######################################################################################
-###################################################GSE32127##########################################################
+###################################################GSE59446##########################################################
+count1=read.delim(file = "GSE59446_raw_data_KBD.txt/GSE59446_raw_data_KBD.txt")
+count1=count1[,-1]
+count2=read.delim(file = "GSE59446_raw_data_control.txt/GSE59446_raw_data_control.txt")
+count2=count2[,-1]
+merged <- merge(count1, count2, by="name", all=TRUE)
+rownames(merged) <- merged$name
+merged=merged[,-1]
+meta=read.csv("GSE59446_series_matrix.txt/GSE56446_meta.csv",row.names = 1)
+GSE59446_count=merged
+GSE59446_meta=meta
+save(GSE59446_count,GSE59446_meta, file = "GSE59446_.RData")
+expr <- log2(merged + 1)
+rownames(meta)=gsub("-",".",rownames(meta))
+meta <- meta[colnames(expr), ]
