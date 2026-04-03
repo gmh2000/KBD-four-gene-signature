@@ -1,6 +1,5 @@
 ###############WGCNA#########
 rm(list=ls())
-setwd("D:\\project/KBD\\data_raw\\GSE186593/")
 load("GSE186593_dds.RData")
 load("GSE186593_raw.RData")
 vsd <- vst(dds, blind=TRUE)
